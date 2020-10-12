@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <p><input type="text" v-model="input">
+                <a href="javascript:;" v-on:click="createHandler">CREATE</a>
+            </p>
+            <ol>
+                <li v-for="(content,index) in contents">
+                    {{content.content}}
+                    <a href="javascript:;">UPDATE</a>
+                    <a href="javascript:;" v-on:click="deleteHandler(index)">DELETE</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- <img src="https://picsum.photos/150/150/?random=1"> -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.4.6/vue-router.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vuex/3.5.1/vuex.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js'></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                input: '',
+                contents: []
+            },
+            methods: {
+                createHandler() {
+                    if (!this.input) return false;
+                    axios.post('http://localhost:3000/contents', {
+                        content: this.input
+                    }).then((res) => {
+                        this.input = ''
+                        this.contents.push(res.data)
+                    })
+                },
+                deleteHandler(index) {
+                    let target = this.contents[index];
+                    axios.delete(`http://localhost:3000/contents/${target.id}`).then((res) => {
+                        this.contents.splice(index, 1)
+                    })
+                }
+            },
+            mounted() {
+                axios.get('http://localhost:3000/contents').then((res) => {
+                    this.contents = res.data
+                })
+            }
+        })
+    </script>
+</body>
+
+</html>
