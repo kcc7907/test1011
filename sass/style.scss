@@ -1,0 +1,62 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  width: $rt;
+  height: 300px;
+  margin: 50px auto;
+  background: lightgreen;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: $rem;
+    text-align: center;
+  }
+}
+
+$baseSize: 12px;
+$baseLineSize: 10px;
+$sizeLevel: 4px;
+$paddingLevel: 1.2;
+
+@function font($level: 0) {
+  @if $level < 0 {
+    $level: 0;
+  }
+
+  @return $baseSize+$sizeLevel * round($level);
+}
+
+@function rhythm($size) {
+  @return ceil($size * $paddingLevel / $baseLineSize) * $baseLineSize;
+}
+
+@mixin font($level: 1, $line-height: auto) {
+  $size: font($level);
+  $line: rhythm($size);
+
+  font-size: $size;
+
+  @if $line-height==auto or $line-height < $line {
+    line-height: $line;
+  }
+
+  @else {
+    line-height: $line-height;
+  }
+}
+
+@function line($count: 1, $baseLineHeight: 10px) {
+  @return $baseLineHeight * $count;
+}
+
+@for $i from 0 through 5 {
+  .level#{$i} {
+    @include font($i);
+    margin: line($i/2) auto;
+  }
+}
