@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text">
+
+        <p @click='post'>click</p>
+        {{kcc}}
+    </div>
+
+    <script>
+        var requestUr = './php/axios02.php';
+        // axios
+        var axiosAjax = axios.create({
+            baseURL: '/',
+            transformRequest: [function (
+                data) { // <--- here 转换数据 data=Qs.stringify(data); // 通过Qs.stringify转换为表单查询参数
+                return data;
+            }],
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+
+        let vm = new Vue({
+
+            el: '#app',
+            data: {
+                kcc: '',
+            },
+            methods: {
+                post() {
+                    // console.log(axios.get('/axios01.php'))
+                    axios.post('./php/axios02.php').then((res) => {
+                        this.kcc = res.data
+                        // console.log(res);
+                    })
+                }
+
+            }
+        });
+
+
+        axios.post('./php/test.php', JSON.stringify({
+            name: "this.name",
+            email: "this.psswrd"
+        }))
+    </script>
+</body>
+
+</html>
