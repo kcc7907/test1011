@@ -28,6 +28,53 @@
 
   <script>
     let box_2 = document.querySelector('.box_2');
+
+    if (list_num === '0') {
+      food_card.classList.add('-erro');
+      setTimeout(() => {
+        food_card.classList.remove('-erro');
+      }, 150);
+      return;
+    } else {
+      let task = {
+        "item_id": item_id,
+        "list_name": list_name,
+        "num": list_num,
+        "price": list_pri
+      };
+      //存ls
+      let tasks = JSON.parse(localStorage.getItem("tasks"));
+      if (tasks) {
+        tasks.unshift(task);
+      } else {
+        tasks = [task];
+      }
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      //
+      //更新菜單
+      if (tasks) {
+        let list_html = "";
+        tasks.forEach(function (item, i) {
+          list_html += `
+                        <li class="r-list-box" data-id="${item.item_id}">
+                            <div class="list-name">${item.list_name}</div>
+                            <div class="list-num">${item.num}</div>
+                            <div class="list-pri">${item.price}</div>
+                            <button type="button" class="list-del">X</button>
+                        </li>
+                    `;
+        });
+        // 更新total
+        let ls = JSON.parse(localStorage.getItem("tasks"));
+        var vans = 0;
+        for (let i = 0; i < ls.length; i++) {
+          vans = vans + parseInt(ls[i].price.replace('$', ''));
+        }
+        total_num.innerHTML = String(vans).replace(/^/, '$');
+        //
+        r_list_ul.innerHTML = list_html;
+      }
+    }
   </script>
 </body>
 

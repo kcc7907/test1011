@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>php_test</title>
+    <link rel="Shortcut Icon" href="../img/favicon.ico">
+    <script src="../lib/js/jquery.js"></script>
+    <script src="../lib/js/vue.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.js'></script>
+    <style>
+        img {
+            width: 200px;
+            height: 200px;
+            background: #00000088;
+        }
+
+        button {
+            /* width: 50px; */
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click='getUrl'>add_img</button>
+        <button @click='create'>add_table</button>
+        <br>
+        <hr>
+        <br>
+        <img v-for="(link,index) in content" :src="link" :key='index' :link='index'>
+        <hr>
+        <div class="inner">
+            {{kcc}}
+        </div>
+        <br>
+        <table border="1px">
+            <tr>
+                <th>PRD_ID</th>
+                <th>PRD_SPECIES</th>
+                <th>PRD_NAME</th>
+                <th>PRD_PRICE</th>
+                <th>PRD_MATERIAL</th>
+                <th>PRD_DATE</th>
+                <th>DISCOUNT_ID</th>
+                <th>PIMG_URL</th>
+                <th>PIMG_ID</th>
+            </tr>
+            <tr v-for="user in users">
+                <td>{{user.PRD_ID}}</td>
+                <td>{{user.PRD_SPECIES}}</td>
+                <td>{{user.PRD_NAME}}</td>
+                <td>{{user.PRD_PRICE}}</td>
+                <td>{{user.PRD_MATERIAL}}</td>
+                <td>{{user.PRD_DATE}}</td>
+                <td>{{user.DISCOUNT_ID}}</td>
+                <td>{{user.PIMG_URL}}</td>
+                <td>{{user.PIMG_ID}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                url: '',
+                content: [],
+                kcc: '',
+                users: [],
+            },
+            methods: {
+                getUrl() {
+                    axios.post('http://localhost:8787/dist/connect.php', {
+                        // content: this.input
+                    }).then((res) => {
+                        // this.input = ''
+                        // this.contents.push(res.data)
+                        // console.log(res.data.split(','));
+                        // this.url = res.data;
+                        console.log(res.status);
+                        console.log(res.request.readyState);
+                        console.log(res);
+                        let x = (res.data.split(',').length) - 1;
+                        this.content = res.data.split(',', x);
+                    })
+                },
+                create() {
+                    axios.get('http://localhost:8787/dist/connect.php').then(res => {
+                        this.users = res.data;
+                        console.log('success');
+                        console.log(this.users);
+                    })
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

@@ -20,6 +20,8 @@
        //抓出全部且依照順序封裝成一個二維陣列
        $data = $result->fetchAll();
        //將二維陣列取出顯示其值
+
+       // echo $data;
        foreach($data as $index => $row){
             //    echo  $row["PRD_ID"].' ';
 	       echo $row["PRD_ID"];   //欄位名稱
