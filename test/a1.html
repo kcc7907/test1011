@@ -29,6 +29,7 @@
         <button @click='create'>add_table</button>
         <button id="ls">add_ls</button>
         <button id="count1">count</button>
+        <button @click='send'>send</button>
         <br>
         <hr>
         <br>
@@ -95,6 +96,15 @@
                         this.users = res.data;
                         console.log('success');
                         console.log(this.users);
+                    })
+                },
+                send() {
+                    let arr = [];
+                    total.forEach((a, b) => {
+                        arr.push(a.prd_num)
+                    });
+                    axios.post('http://localhost:8787/dist/a02.php', arr).then(res => {
+
                     })
                 }
             },

@@ -10,12 +10,14 @@
     $pdo = new PDO($dbconnect, $db_user, $db_pass);
 
     // $sql = "SELECT * FROM `product`";
-    $sql = "SELECT * FROM `product_img`";
+    // $sql = "SELECT * FROM `product_img`";
+    $sql = "SELECT a.*,b.`PIMG_URL`,b.`PIMG_ID` FROM `product` as a LEFT JOIN `product_img` as b ON a.`PRD_ID`= b.`PRD_ID`WHERE a.`PRD_ID`='bk001'";
     // $sql = "SELECT a.*,b.* FROM `product` as a INNER JOIN `product_img` as b ON a.`PRD_ID`= b.`PRODUCT_ID`";
     // $sql = "SELECT a.*,b.`PIMG_URL`,b.`PIMG_ID` FROM `product` as a LEFT JOIN `product_img` as b ON a.`PRD_ID`= b.`PRD_ID` ORDER BY `b`.`PIMG_ID` ASC";
+    // SELECT a.*,b.`PIMG_URL`,b.`PIMG_ID` FROM `product` as a LEFT JOIN `product_img` as b ON a.`PRD_ID`= b.`PRD_ID`WHERE a.`PRD_ID`='bk001'
 
     $result = $pdo->query($sql);
-    $data = $result->fetchAll();
+    // $data = $result->fetchAll();
     // foreach($data as $index => $row){
     //     echo json_encode($row["PRD_ID"]);
     //     echo "   ";
@@ -27,10 +29,10 @@
     //     echo "</br>";
     // }
 
-        foreach($data as $index => $row){
-        echo $row["PIMG_URL"];
-        echo ",";
-        }
+        // foreach($data as $index => $row){
+        // echo $row["PIMG_URL"];
+        // echo ",";
+        // }
 
     // $result->execute();
     // $data = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -42,4 +44,5 @@
     // $sql = $sql.$arr1;
     // echo $sql;
 
+    
 ?>
